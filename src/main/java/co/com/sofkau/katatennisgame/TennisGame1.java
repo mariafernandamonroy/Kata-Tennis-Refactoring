@@ -21,35 +21,9 @@ public class TennisGame1 implements TennisGame {
 
     public String getScore() {
         String score = "";
-        if (scorePlayer1 == scorePlayer2)
-        {
-            switch (scorePlayer1)
-            {
-                case 0:
-                        score = "Love-All";
-                    break;
-                case 1:
-                        score = "Fifteen-All";
-                    break;
-                case 2:
-                        score = "Thirty-All";
-                    break;
-                default:
-                        score = "Deuce";
-                    break;
-                
-            }
-
-        }
-        else if (scorePlayer1>=4 || scorePlayer2>=4)
-        {
-            int minusResult = scorePlayer1-scorePlayer2;
-            if (minusResult==1) score ="Advantage " +  player1Name;
-            else if (minusResult ==-1) score ="Advantage " + player2Name;
-            else if (minusResult>=2) score = "Win for " + player1Name;
-            else score ="Win for " + player2Name;
-        }
-        else
+        if (isEqual())  score = getScorePlayer1();
+        else if (isUpToFourPoints()) score = getAdvantage();
+        else if (isBetweenOneAndThreePoints())
         {
             for (int i=1; i<3; i++)
             {
@@ -58,6 +32,58 @@ public class TennisGame1 implements TennisGame {
         }
         return score;
     }
+
+    private boolean isEqual() {
+        return scorePlayer1 == scorePlayer2;
+    }
+    private boolean isBetweenOneAndThreePoints() {
+        return scorePlayer1 >= 1 || scorePlayer1 < 3 || scorePlayer2 >= 1 || scorePlayer2 < 3;
+    }
+    private boolean isUpToFourPoints() {
+        return scorePlayer1 >= 4 || scorePlayer2 >= 4;
+    }
+
+    private String getAdvantage() {
+        String score = "";
+        int minusResult = scorePlayer1 - scorePlayer2;
+        score = advantagePlayer(score, minusResult, 1, player1Name);
+        score = advantagePlayer(score, minusResult, -1, player2Name);
+        score = winninPlayer(score, minusResult >= 2, "Win for ", player1Name);
+        score = winninPlayer(score, minusResult <= -2, "Win for ", player2Name);
+        return score;
+    }
+
+    private String winninPlayer(String score, boolean b, String s, String playerName) {
+        if (b) score = s + playerName;
+        return score;
+    }
+
+    private String advantagePlayer(String score, int minusResult, int i, String playerName) {
+        score = winninPlayer(score, minusResult == i, "Advantage ", playerName);
+        return score;
+    }
+
+    private String getScorePlayer1() {
+        String score;
+        switch (scorePlayer1)
+        {
+            case 0:
+                    score = "Love-All";
+                break;
+            case 1:
+                    score = "Fifteen-All";
+                break;
+            case 2:
+                    score = "Thirty-All";
+                break;
+            default:
+                    score = "Deuce";
+                break;
+
+        }
+        return score;
+    }
+
 
     private String getResult(String score, int i) {
         int tempScore;
