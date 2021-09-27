@@ -2,36 +2,73 @@ package co.com.sofkau.katatennisgame;
 
 public class TennisGame3 implements TennisGame {
     
-    private int p2;
-    private int p1;
-    private String p1N;
-    private String p2N;
+    private int pointsPlayer2;
+    private int pointsPlayer1;
+    private String player1Name;
+    private String player2Name;
 
-    public TennisGame3(String p1N, String p2N) {
-        this.p1N = p1N;
-        this.p2N = p2N;
+    public TennisGame3(String player1Name, String player2Name) {
+        this.player1Name = player1Name;
+        this.player2Name = player2Name;
     }
 
     public String getScore() {
-        String s;
-        if (p1 < 4 && p2 < 4 && !(p1 + p2 == 6)) {
-            String[] p = new String[]{"Love", "Fifteen", "Thirty", "Forty"}; 
-            s = p[p1];
-            return (p1 == p2) ? s + "-All" : s + "-" + p[p2];
+        String selectedString;
+        if (scoreOneToOne()) {
+            String[] score = new String[]{"Love", "Fifteen", "Thirty", "Forty"};
+            selectedString = score[pointsPlayer1];
+            return playerScore(selectedString, score);
         } else {
-            if (p1 == p2)
-                return "Deuce";
-            s = p1 > p2 ? p1N : p2N;
-            return ((p1-p2)*(p1-p2) == 1) ? "Advantage " + s : "Win for " + s;
+            if (isEqualPoints(pointsPlayer1, pointsPlayer2)) return "Deuce";
+            selectedString = isAdvantageOrWinningPlayer(isGreater(), player1Name, player2Name);
+            return isAdvantageOrWinningPlayer(isAdvantageOrWinningPoints(), concatenateDeclaration(selectedString, "Advantage "), concatenateDeclaration(selectedString, "Win for "));
         }
     }
-    
-    public void wonPoint(String playerName) {
-        if (playerName == "player1")
-            this.p1 += 1;
-        else
-            this.p2 += 1;
-        
+
+    private String concatenateDeclaration(String selectedString, String s) {
+        return s + selectedString;
     }
 
+    private String playerScore(String selectedString, String[] score) {
+        return isEqualPoints(pointsPlayer1, pointsPlayer2) ? concatenateDeclaration("-All", selectedString) : selectedString + "-" + score[pointsPlayer2];
+    }
+
+    private String isAdvantageOrWinningPlayer(boolean advantageOrWinningPoints, String declaration1, String declaration2) {
+        return advantageOrWinningPoints ? declaration1 : declaration2;
+    }
+
+    private boolean scoreOneToOne() {
+        return isLessThan(pointsPlayer1) && isLessThan(pointsPlayer2) && isNotMaxPoints();
+    }
+
+    private boolean isNotMaxPoints() {
+        return (pointsPlayer1 + pointsPlayer2 != 6);
+    }
+
+    private boolean isAdvantageOrWinningPoints() {
+        return substractingPlayerPoints() * (substractingPlayerPoints()) == 1;
+    }
+
+    private int substractingPlayerPoints() {
+        return pointsPlayer1 - pointsPlayer2;
+    }
+
+    private boolean isEqualPoints(int pointsPlayer1, int pointsPlayer2) {
+        return pointsPlayer1 == pointsPlayer2;
+    }
+
+    private boolean isGreater() {
+        return pointsPlayer1 > pointsPlayer2;
+    }
+
+    private boolean isLessThan(int pointsPlayer1) {
+        return pointsPlayer1 < 4;
+    }
+
+    public void wonPoint(String playerName) {
+        if (playerName.equalsIgnoreCase("player1"))
+            this.pointsPlayer1 += 1;
+        else
+            this.pointsPlayer2 += 1;
+    }
 }
