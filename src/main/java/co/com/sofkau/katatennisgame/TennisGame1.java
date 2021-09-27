@@ -1,5 +1,7 @@
 package co.com.sofkau.katatennisgame;
 
+import java.util.List;
+
 public class TennisGame1 implements TennisGame {
     
     private int scorePlayer1 = 0;
@@ -53,8 +55,8 @@ public class TennisGame1 implements TennisGame {
         return score;
     }
 
-    private String winninPlayer(String score, boolean b, String s, String playerName) {
-        if (b) score = s + playerName;
+    private String winninPlayer(String score, boolean isPointsUpToTwo, String winningText, String playerName) {
+        if (isPointsUpToTwo) score = winningText + playerName;
         return score;
     }
 
@@ -84,7 +86,6 @@ public class TennisGame1 implements TennisGame {
         return score;
     }
 
-
     private String getResult(String score, int i) {
         int tempScore;
         if (i ==1) tempScore = scorePlayer1;
@@ -94,21 +95,28 @@ public class TennisGame1 implements TennisGame {
     }
 
     private String getScoreDescription(String score, int tempScore) {
-        switch(tempScore)
-        {
-            case 0:
-                score = score.concat("Love");
-                break;
-            case 1:
-                score = score.concat("Fifteen");
-                break;
-            case 2:
-                score = score.concat("Thirty");
-                break;
-            case 3:
-                score =score.concat("Forty");
-                break;
-        }
+        List<String> scoreDescription = List.of("Love","Fifteen","Thirty","Forty");
+        score = loveScore(score, tempScore, 0, scoreDescription.get(tempScore));
+        score = fifteenScore(score, tempScore, 1, scoreDescription.get(tempScore));
+        score = thirtyScore(score, tempScore, 2, scoreDescription.get(tempScore));
+        score = fortyScore(score, tempScore, 3, scoreDescription.get(tempScore));
+        return score;
+    }
+
+    private String loveScore(String score,int tempScore, int actualScore, String scoreDescription){
+        if(tempScore == actualScore) score = score.concat("Love");
+        return score;
+    }
+    private String fifteenScore(String score,int tempScore, int actualScore, String scoreDescription){
+        if(tempScore == actualScore) score = score.concat("Fifteen");
+        return score;
+    }
+    private String thirtyScore(String score,int tempScore, int actualScore, String scoreDescription){
+        if(tempScore == actualScore) score = score.concat("Thirty");
+        return score;
+    }
+    private String fortyScore(String score,int tempScore, int actualScore, String scoreDescription){
+        if(tempScore == actualScore) score = score.concat("Forty");
         return score;
     }
 
