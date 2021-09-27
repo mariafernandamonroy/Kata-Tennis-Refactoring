@@ -24,8 +24,8 @@ public class TennisGame1 implements TennisGame {
     public String getScore() {
         String score = "";
         if (isEqual())  score = getScorePlayer1();
-        if (isUpToFourPoints()) score = getAdvantage();
-        if (isBetweenOneAndThreePoints()) for (int i=1; i<3; i++) score = getResult(score, i);
+        else if (isUpToFourPoints()) score = getAdvantage();
+        else if (isBetweenOneAndThreePoints()) for (int i=1; i<3; i++) score = getResult(score, i);
         return score;
     }
 
@@ -95,32 +95,16 @@ public class TennisGame1 implements TennisGame {
     }
 
     private String getScoreDescription(String score, int tempScore) {
-        List<String> scoreDescription = List.of("Love","Fifteen","Thirty","Forty");
-        score = loveScore(score, tempScore, 0, scoreDescription.get(tempScore));
-        score = fifteenScore(score, tempScore, 1, scoreDescription.get(tempScore));
-        score = thirtyScore(score, tempScore, 2, scoreDescription.get(tempScore));
-        score = fortyScore(score, tempScore, 3, scoreDescription.get(tempScore));
+        List<String> scoreDescriptionList = List.of("Love","Fifteen","Thirty","Forty");
+        score = scoreDescription(score, tempScore, 0, scoreDescriptionList.get(tempScore));
+        score = scoreDescription(score, tempScore, 1, scoreDescriptionList.get(tempScore));
+        score = scoreDescription(score, tempScore, 2, scoreDescriptionList.get(tempScore));
+        score = scoreDescription(score, tempScore, 3, scoreDescriptionList.get(tempScore));
         return score;
     }
 
-    private String loveScore(String score,int tempScore, int actualScore, String scoreDescription){
-        if(tempScore == actualScore) score = score.concat("Love");
+    private String scoreDescription(String score,int tempScore, int actualScore, String scoreDescription){
+        if(tempScore == actualScore) score = score.concat(scoreDescription);
         return score;
     }
-
-    private String fifteenScore(String score,int tempScore, int actualScore, String scoreDescription){
-        if(tempScore == actualScore) score = score.concat("Fifteen");
-        return score;
-    }
-
-    private String thirtyScore(String score,int tempScore, int actualScore, String scoreDescription){
-        if(tempScore == actualScore) score = score.concat("Thirty");
-        return score;
-    }
-
-    private String fortyScore(String score,int tempScore, int actualScore, String scoreDescription){
-        if(tempScore == actualScore) score = score.concat("Forty");
-        return score;
-    }
-
 }
