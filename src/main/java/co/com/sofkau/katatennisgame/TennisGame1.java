@@ -81,7 +81,6 @@ public class TennisGame1 implements TennisGame {
             default:
                     score = "Deuce";
                 break;
-
         }
         return score;
     }
