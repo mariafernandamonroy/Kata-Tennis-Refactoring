@@ -1,10 +1,12 @@
 import java.util.Arrays;
 import java.util.Collection;
+import static org.junit.Assert.*;
 
-import com.SofkaU.katatennisgame.TennisGame;
-import com.SofkaU.katatennisgame.TennisGame1;
-import com.SofkaU.katatennisgame.TennisGame2;
+import co.com.sofkau.katatennisgame.TennisGame;
+import co.com.sofkau.katatennisgame.TennisGame1;
+import co.com.sofkau.katatennisgame.TennisGame2;
 import co.com.sofkau.katatennisgame.TennisGame3;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

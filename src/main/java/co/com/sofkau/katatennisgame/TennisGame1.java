@@ -21,7 +21,7 @@ public class TennisGame1 implements TennisGame {
 
     public String getScore() {
         String score = "";
-        if (scorePlayer1==scorePlayer2)
+        if (scorePlayer1 == scorePlayer2)
         {
             switch (scorePlayer1)
             {
@@ -39,6 +39,7 @@ public class TennisGame1 implements TennisGame {
                     break;
                 
             }
+
         }
         else if (scorePlayer1>=4 || scorePlayer2>=4)
         {
@@ -70,16 +71,16 @@ public class TennisGame1 implements TennisGame {
         switch(tempScore)
         {
             case 0:
-                score +="Love";
+                score = score.concat("Love");
                 break;
             case 1:
-                score +="Fifteen";
+                score = score.concat("Fifteen");
                 break;
             case 2:
-                score +="Thirty";
+                score = score.concat("Thirty");
                 break;
             case 3:
-                score +="Forty";
+                score =score.concat("Forty");
                 break;
         }
         return score;
