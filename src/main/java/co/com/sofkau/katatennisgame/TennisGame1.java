@@ -24,14 +24,8 @@ public class TennisGame1 implements TennisGame {
     public String getScore() {
         String score = "";
         if (isEqual())  score = getScorePlayer1();
-        else if (isUpToFourPoints()) score = getAdvantage();
-        else if (isBetweenOneAndThreePoints())
-        {
-            for (int i=1; i<3; i++)
-            {
-                score = getResult(score, i);
-            }
-        }
+        if (isUpToFourPoints()) score = getAdvantage();
+        if (isBetweenOneAndThreePoints()) for (int i=1; i<3; i++) score = getResult(score, i);
         return score;
     }
 
