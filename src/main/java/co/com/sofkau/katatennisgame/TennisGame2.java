@@ -1,4 +1,4 @@
-package com.SofkaU.kataTennisGame;
+package co.com.sofkau.katatennisgame;
 
 public class TennisGame2 implements TennisGame
 {
