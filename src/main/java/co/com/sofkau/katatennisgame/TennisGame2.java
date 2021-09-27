@@ -1,5 +1,7 @@
 package co.com.sofkau.katatennisgame;
 
+import java.util.List;
+
 public class TennisGame2 implements TennisGame
 {
     private int player1Point = 0;
@@ -9,10 +11,10 @@ public class TennisGame2 implements TennisGame
     private String player2Result = "";
     private String player1Name = "player1";
     private String player2Name = "player2";
-    private String loveScore = "Love";
-    private String fifteenScore = "Fifteen";
-    private String thirtyScore = "Thirty";
-    private String fortyScore = "Forty";
+    private final String loveScore = "Love";
+    private final String fifteenScore = "Fifteen";
+    private final String thirtyScore = "Thirty";
+    private final String fortyScore = "Forty";
 
     public TennisGame2(String player1Name, String player2Name) {
         this.player1Name = player1Name;
@@ -46,19 +48,25 @@ public class TennisGame2 implements TennisGame
     }
 
     private String playerAdvantageWithPointsLessThanFour(String score, int playerLeadPoints, int playerBehindPoints, String playerLeadResult, String playerBehindResult) {
-        if (playerLeadPoints > player2Point && player1Point < 4)
+        if (isPlayerLead(playerLeadPoints, playerBehindPoints))
         {
-            if (playerLeadPoints==2)
-                playerLeadResult=thirtyScore;
-            if (playerLeadPoints==3)
-                playerLeadResult=fortyScore;
-            if (playerBehindPoints==1)
-                playerBehindResult=fifteenScore;
-            if (playerBehindPoints==2)
-                playerBehindResult=thirtyScore;
+            List<String> scoreDescription = List.of(loveScore,fifteenScore,thirtyScore,fortyScore);
+            playerLeadResult = scoreDescription(playerLeadPoints, 2, playerLeadResult, scoreDescription.get(2));
+            playerLeadResult = scoreDescription(playerLeadPoints, 3, playerLeadResult, scoreDescription.get(3));
+            playerBehindResult = scoreDescription(playerBehindPoints, 2, playerBehindResult, scoreDescription.get(2));
+            playerBehindResult = scoreDescription(playerBehindPoints, 1, playerBehindResult, scoreDescription.get(1));
             score = playerLeadResult + "-" + playerBehindResult;
         }
         return score;
+    }
+
+    private boolean isPlayerLead(int playerLeadPoints, int playerBehindPoints) {
+        return playerLeadPoints > playerBehindPoints && playerLeadPoints < 4;
+    }
+
+    private String scoreDescription(int playerPoints, int tempScore, String playerResult, String scoreDescription){
+        if(playerPoints == tempScore) playerResult = scoreDescription;
+        return playerResult;
     }
 
     private String playerLead(String score, int playerPointsLead, int playerPointsZero, String playerLeadResult, String playerBehindResult) {
