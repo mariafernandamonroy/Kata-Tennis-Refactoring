@@ -38,9 +38,15 @@ public class TennisGame1 implements TennisGame {
     private boolean isEqual() {
         return scorePlayer1 == scorePlayer2;
     }
+
     private boolean isBetweenOneAndThreePoints() {
-        return scorePlayer1 >= 1 || scorePlayer1 < 3 || scorePlayer2 >= 1 || scorePlayer2 < 3;
+        return playerBetweenOneAndThreePoints(scorePlayer1) || playerBetweenOneAndThreePoints(scorePlayer2);
     }
+
+    private boolean playerBetweenOneAndThreePoints(int scorePlayer){
+        return scorePlayer >= 1 || scorePlayer < 3;
+    }
+
     private boolean isUpToFourPoints() {
         return scorePlayer1 >= 4 || scorePlayer2 >= 4;
     }
@@ -107,18 +113,20 @@ public class TennisGame1 implements TennisGame {
         if(tempScore == actualScore) score = score.concat("Love");
         return score;
     }
+
     private String fifteenScore(String score,int tempScore, int actualScore, String scoreDescription){
         if(tempScore == actualScore) score = score.concat("Fifteen");
         return score;
     }
+
     private String thirtyScore(String score,int tempScore, int actualScore, String scoreDescription){
         if(tempScore == actualScore) score = score.concat("Thirty");
         return score;
     }
+
     private String fortyScore(String score,int tempScore, int actualScore, String scoreDescription){
         if(tempScore == actualScore) score = score.concat("Forty");
         return score;
     }
-
 
 }
