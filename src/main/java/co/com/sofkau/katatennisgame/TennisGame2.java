@@ -15,6 +15,7 @@ public class TennisGame2 implements TennisGame
     private final String fifteenScore = "Fifteen";
     private final String thirtyScore = "Thirty";
     private final String fortyScore = "Forty";
+    List<String> scoreDescription = List.of(loveScore,fifteenScore,thirtyScore,fortyScore);
 
     public TennisGame2(String player1Name, String player2Name) {
         this.player1Name = player1Name;
@@ -24,7 +25,7 @@ public class TennisGame2 implements TennisGame
     public String getScore(){
         String score = "";
         score = playerScoreLessThanFour(score);
-        score = playerScoreHigherThanTwo(score, player1Point == player2Point, player1Point, "Deuce");
+        score = playerScoreHigherThanTwo(score, player1EqualPlayer2(), player1Point, "Deuce");
         score = playerLead(score, player1Point, player2Point, player1Result, player2Result);
         score = playerLead(score, player2Point, player1Point, player2Result, player1Result);
         score = playerAdvantageWithPointsLessThanFour(score, player1Point,player2Point,player1Result,player2Result);
@@ -34,6 +35,10 @@ public class TennisGame2 implements TennisGame
         score = winningPlayer(score, player1Point, player2Point, player1Name);
         score = winningPlayer(score, player2Point, player1Point, player2Name);
         return score;
+    }
+
+    private boolean player1EqualPlayer2() {
+        return player1Point == player2Point;
     }
 
     private String winningPlayer(String score, int playerLeadPoint, int playerBehindPoint, String playerName) {
@@ -50,7 +55,6 @@ public class TennisGame2 implements TennisGame
     private String playerAdvantageWithPointsLessThanFour(String score, int playerLeadPoints, int playerBehindPoints, String playerLeadResult, String playerBehindResult) {
         if (isPlayerLead(playerLeadPoints, playerBehindPoints))
         {
-            List<String> scoreDescription = List.of(loveScore,fifteenScore,thirtyScore,fortyScore);
             playerLeadResult = scoreDescription(playerLeadPoints, 2, playerLeadResult, scoreDescription.get(2));
             playerLeadResult = scoreDescription(playerLeadPoints, 3, playerLeadResult, scoreDescription.get(3));
             playerBehindResult = scoreDescription(playerBehindPoints, 2, playerBehindResult, scoreDescription.get(2));
@@ -70,19 +74,19 @@ public class TennisGame2 implements TennisGame
     }
 
     private String playerLead(String score, int playerPointsLead, int playerPointsZero, String playerLeadResult, String playerBehindResult) {
-        if (playerPointsLead > 0 && playerPointsZero == 0)
+        if (playerLeading(playerPointsLead, playerPointsZero))
         {
-            if (playerPointsLead==1)
-                playerLeadResult = fifteenScore;
-            if (playerPointsLead==2)
-                playerLeadResult = thirtyScore;
-            if (playerPointsLead==3)
-                playerLeadResult = fortyScore;
-
+            playerLeadResult = scoreDescription(playerPointsLead, 1, playerBehindResult, scoreDescription.get(1));
+            playerLeadResult = scoreDescription(playerPointsLead, 2, playerLeadResult, scoreDescription.get(2));
+            playerLeadResult = scoreDescription(playerPointsLead, 3, playerLeadResult, scoreDescription.get(3));
             playerBehindResult = loveScore;
             score = playerLeadResult + "-" + playerBehindResult;
         }
         return score;
+    }
+
+    private boolean playerLeading(int playerPointsLead, int playerPointsZero) {
+        return playerPointsLead > 0 && playerPointsZero == 0;
     }
 
     private String playerScoreHigherThanTwo(String score, boolean b, int player1Point, String deuce) {
@@ -92,7 +96,7 @@ public class TennisGame2 implements TennisGame
     }
 
     private String playerScoreLessThanFour(String score) {
-        if (player1Point == player2Point && player1Point < 4)
+        if (player1EqualPlayer2() && player1Point < 4)
         {
             if (player1Point==0)
                 score = loveScore;
