@@ -23,68 +23,62 @@ public class TennisGame2 implements TennisGame
         String score = "";
         score = playerScoreLessThanFour(score);
         score = playerScoreHigherThanTwo(score, player1Point == player2Point, player1Point, "Deuce");
-
         score = playerLead(score, player1Point, player2Point, player1Result, player2Result);
         score = playerLead(score, player2Point, player1Point, player2Result, player1Result);
-        
-        if (player1Point > player2Point && player1Point < 4)
-        {
-            if (player1Point==2)
-                player1Result=thirtyScore;
-            if (player1Point==3)
-                player1Result=fortyScore;
-            if (player2Point==1)
-                player2Result=fifteenScore;
-            if (player2Point==2)
-                player2Result=thirtyScore;
-            score = player1Result + "-" + player2Result;
-        }
-        if (player2Point>player1Point && player2Point < 4)
-        {
-            if (player2Point==2)
-                player2Result=thirtyScore;
-            if (player2Point==3)
-                player2Result=fortyScore;
-            if (player1Point==1)
-                player1Result=fifteenScore;
-            if (player1Point==2)
-                player1Result=thirtyScore;
-            score = player1Result + "-" + player2Result;
-        }
-
+        score = playerAdvantageWithPointsLessThanFour(score, player1Point,player2Point,player1Result,player2Result);
+        score = playerAdvantageWithPointsLessThanFour(score, player2Point,player1Point,player2Result,player1Result);
         score = playerScoreHigherThanTwo(score, player1Point > player2Point, player2Point, "Advantage " + player1Name);
-
         score = playerScoreHigherThanTwo(score, player2Point > player1Point, player1Point, "Advantage " + player2Name);
+        score = winningPlayer(score, player1Point, player2Point, player1Name);
+        score = winningPlayer(score, player2Point, player1Point, player2Name);
+        return score;
+    }
 
-        if (player1Point>=4 && player2Point>=0 && (player1Point-player2Point)>=2)
-        {
-            score = "Win for " + player1Name;
-        }
-        if (player2Point>=4 && player1Point>=0 && (player2Point-player1Point)>=2)
-        {
-            score = "Win for " + player2Name;
+    private String winningPlayer(String score, int playerLeadPoint, int playerBehindPoint, String playerName) {
+        if (greaterAndEqualThan(playerLeadPoint, 4) && greaterAndEqualThan(playerBehindPoint, 0) && greaterAndEqualThan(playerLeadPoint - playerBehindPoint, 2)) {
+            score = "Win for " + playerName;
         }
         return score;
     }
 
-    private String playerLead(String score, int playerPointsLead, int playerPointsZero, String player1Result, String player2Result) {
+    private boolean greaterAndEqualThan(int player, int comparisionValue) {
+        return (player) >= comparisionValue;
+    }
+
+    private String playerAdvantageWithPointsLessThanFour(String score, int playerLeadPoints, int playerBehindPoints, String playerLeadResult, String playerBehindResult) {
+        if (playerLeadPoints > player2Point && player1Point < 4)
+        {
+            if (playerLeadPoints==2)
+                playerLeadResult=thirtyScore;
+            if (playerLeadPoints==3)
+                playerLeadResult=fortyScore;
+            if (playerBehindPoints==1)
+                playerBehindResult=fifteenScore;
+            if (playerBehindPoints==2)
+                playerBehindResult=thirtyScore;
+            score = playerLeadResult + "-" + playerBehindResult;
+        }
+        return score;
+    }
+
+    private String playerLead(String score, int playerPointsLead, int playerPointsZero, String playerLeadResult, String playerBehindResult) {
         if (playerPointsLead > 0 && playerPointsZero == 0)
         {
             if (playerPointsLead==1)
-                player1Result = fifteenScore;
+                playerLeadResult = fifteenScore;
             if (playerPointsLead==2)
-                player1Result = thirtyScore;
+                playerLeadResult = thirtyScore;
             if (playerPointsLead==3)
-                player1Result = fortyScore;
+                playerLeadResult = fortyScore;
 
-            player2Result = loveScore;
-            score = player1Result + "-" + player2Result;
+            playerBehindResult = loveScore;
+            score = playerLeadResult + "-" + playerBehindResult;
         }
         return score;
     }
 
     private String playerScoreHigherThanTwo(String score, boolean b, int player1Point, String deuce) {
-        if (b && player1Point >= 3)
+        if (b && greaterAndEqualThan(player1Point, 3))
             score = deuce;
         return score;
     }
